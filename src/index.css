@@ -1,0 +1,15 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+/* Your custom tokens / base tweaks */
+:root {
+    --gray-950: hsl(0, 0%, 17%);
+    --gray-400: hsl(0, 0%, 58%);
+}
+
+html {
+    font-family: 'Rubik', system-ui, sans-serif;
+}
+
+/* Third-party CSS (Leaflet) */
+@import "leaflet/dist/leaflet.css";
