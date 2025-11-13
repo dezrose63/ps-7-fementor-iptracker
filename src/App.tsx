@@ -6,6 +6,19 @@ import type { IpifyGeo } from "./types";
 
 const KEY = import.meta.env.VITE_IPIFY_KEY as string;
 
+const dummyData: IpifyGeo = {
+  ip: "192.212.174.101",
+  location: {
+    city: "Brooklyn",
+    region: "NY",
+    postalCode: "10001",
+    timezone: "UTC-05:00",
+    lat: 40.7128, // Example coordinates for the map
+    lng: -74.006,
+  },
+  isp: "SpaceX Starlink",
+};
+
 async function fetchGeo(query?: string): Promise<IpifyGeo> {
   // If no query, get the client IP first
   const ip =
@@ -24,7 +37,7 @@ async function fetchGeo(query?: string): Promise<IpifyGeo> {
 }
 
 export default function App() {
-  const [data, setData] = useState<IpifyGeo | null>(null);
+  const [data, setData] = useState<IpifyGeo | null>(dummyData);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -42,7 +55,7 @@ export default function App() {
     try {
       const d = await fetchGeo(q);
       setData(d);
-    } catch (e: string) {
+    } catch (e: unknown) {
       setErr(e.message ?? "Error");
     } finally {
       setLoading(false);
@@ -50,10 +63,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Hero */}
+    <div className="min-h-screen flex-col">
+
+      {/* Header */}
       <header
-        className="relative grid place-items-start gap-6 pb-24 pt-10 text-white"
+        className="relative z-10 p-6 pb-24"
         style={{
           backgroundImage:
             "url('/pattern-bg-desktop.png'), linear-gradient(135deg,#5a67d8,#3182ce)",
@@ -61,22 +75,30 @@ export default function App() {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="mx-auto text-2xl font-medium">IP Address Tracker</h1>
-        <SearchBar onSearch={onSearch} loading={loading} />
-        <div className="absolute inset-x-0 -bottom-96px">
-          <InfoCard data={data} />
-        </div>
-      </header>
+        <h1 className="mx-auto mb-6 text-center text-2xl font-medium text-white">
+          IP Address Tracker
+        </h1>
 
-      {/* Map */}
-      <main className="mt-24">
-        <MapView lat={data?.location.lat} lng={data?.location.lng} />
+        {/* Search Bar */}
+        <SearchBar onSearch={onSearch} loading={loading} />
+
         {err && (
           <p className="mt-4 text-center text-sm text-red-600">
             {err}. Try a valid IP (e.g., 8.8.8.8) or a domain (e.g.,
             example.com).
           </p>
         )}
+      </header>
+
+      <main className="relative grow">
+      
+      {/* Info Card */}
+        <div className="absolute left-1/2 top-0 z-20 w-full max-w-4xl -translate-x-1/2 px-4 md:-translate-y-1/2">    
+          <InfoCard data={data} />
+        </div>
+
+        {/* Map View */}
+        <MapView lat={data?.location.lat} lng={data?.location.lng} />
       </main>
     </div>
   );
