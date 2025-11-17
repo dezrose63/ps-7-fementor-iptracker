@@ -1,4 +1,5 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
+import iconArrow from "../assets/icon-arrow.svg";
 
 type Props = { onSearch: (query: string) => void; loading?: boolean };
 
@@ -27,7 +28,7 @@ export default function SearchBar({ onSearch, loading }: Props) {
         className="grid w-14 place-items-center bg-black hover:opacity-80 disabled:opacity-50"
         aria-label="Search"
       >
-        <img src="/src/assets/icon-arrow.svg" alt="" />
+        <img src={iconArrow} alt="" />
       </button>
     </form>
   );

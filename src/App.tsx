@@ -74,8 +74,9 @@ export default function App() {
       <header
         className="relative h-64 z-10"
         style={{
-          backgroundImage:
-            "url('/pattern-bg-desktop.png'), linear-gradient(hsl(240, 100%, 5%), hsl(238, 22%, 44%))",
+          backgroundImage: `url('${
+            import.meta.env.BASE_URL
+          }pattern-bg-desktop.png'), linear-gradient(135deg,#5a67d8,#3182ce)`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
