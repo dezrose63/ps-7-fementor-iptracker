@@ -4,11 +4,11 @@ import L from "leaflet";
 import iconLocation from "../assets/icon-location.svg";
 
 // Fix Leaflet's default icon paths
-delete (L.Icon.Default.prototype as unknown)._getIconUrl;
+delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: iconLocation,
   iconUrl: iconLocation,
-  shadowUrl: '',
+  shadowUrl: "",
 });
 
 const pin = new L.Icon({

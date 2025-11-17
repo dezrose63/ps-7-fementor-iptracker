@@ -36,6 +36,12 @@ async function fetchGeo(query?: string): Promise<IpifyGeo> {
   return res.json();
 }
 
+function getErrorMessage(e: unknown): string {
+  if (e instanceof Error) return e.message;
+  if (typeof e === "string") return e;
+  return String(e ?? "Error");
+}
+
 export default function App() {
   const [data, setData] = useState<IpifyGeo | null>(dummyData);
   const [loading, setLoading] = useState(false);
@@ -45,7 +51,7 @@ export default function App() {
     setLoading(true);
     fetchGeo()
       .then(setData)
-      .catch((e) => setErr(e.message))
+      .catch((e: unknown) => setErr(getErrorMessage(e)))
       .finally(() => setLoading(false));
   }, []);
 
@@ -56,7 +62,7 @@ export default function App() {
       const d = await fetchGeo(q);
       setData(d);
     } catch (e: unknown) {
-      setErr(e.message ?? "Error");
+      setErr(getErrorMessage(e));
     } finally {
       setLoading(false);
     }
