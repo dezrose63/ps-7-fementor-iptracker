@@ -4,29 +4,29 @@ import { useState } from "react";
 type Props = { onSearch: (query: string) => void; loading?: boolean };
 
 export default function SearchBar({ onSearch, loading }: Props) {
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState<string>("");
+
+ const submit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (q.trim()) onSearch(q.trim());
+  };
 
   return (
-     <form
-         onSubmit={(e) => {e.preventDefault();
-          if (q.trim()) onSearch(q.trim());
-         }}  className="flex rounded-md overflow-hidden max-w-md mx-auto">
-        
-          <input value={q} onChange={(e) => setQ(e.target.value)}
-             placeholder="Search for any IP address or domain"
-             className="w-full outline-none bg-white text-gray-600 text-sm px-4 py-3" />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-black p-4 hover:bg-gray-800 transition-colors"
-            aria-label="Search"
-            > 
-        <img src={Arrow} alt="" />
-          </button>
-      </form>
+    <form onSubmit={submit} className="mx-auto flex w-full max-w-xl overflow-hidden rounded-xl shadow-lg">
+      <input
+        value={q}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setQ(e.target.value)}
+        placeholder="Search for any IP address or domain"
+        className="flex-1 bg-white p-4 text-lg outline-none"
+      />
+      <button type="submit" disabled={loading} className="grid w-14 place-items-center bg-black hover:opacity-80 disabled:opacity-50" aria-label="Search">
+        <img src="/src/assets/icon-arrow.svg" alt="" />
+      </button>
+    </form>
   );
 }
+
+
 
 
 

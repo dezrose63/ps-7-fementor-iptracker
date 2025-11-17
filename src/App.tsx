@@ -63,43 +63,43 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex-col">
-
-      {/* Header */}
+    <div className="relative min-h-screen">
+      {/* Header with SearchBar inside */}
       <header
-        className="relative z-10 p-6 pb-24"
+        className="relative h-64 z-10"
         style={{
           backgroundImage:
-            "url('/pattern-bg-desktop.png'), linear-gradient(135deg,#5a67d8,#3182ce)",
+            "url('/pattern-bg-desktop.png'), linear-gradient(hsl(240, 100%, 5%), hsl(238, 22%, 44%))",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        <h1 className="mx-auto mb-6 text-center text-2xl font-medium text-white">
-          IP Address Tracker
-        </h1>
+        <div className="relative z-10 flex flex-col items-center justify-center pt-8 px-4">
+          <h1 className="mb-6 text-center text-3xl font-medium text-white">
+            IP Address Tracker
+          </h1>
 
-        {/* Search Bar */}
-        <SearchBar onSearch={onSearch} loading={loading} />
+          {/* Search Bar */}
+          <SearchBar onSearch={onSearch} loading={loading} />
 
-        {err && (
-          <p className="mt-4 text-center text-sm text-red-600">
-            {err}. Try a valid IP (e.g., 8.8.8.8) or a domain (e.g.,
-            example.com).
-          </p>
-        )}
+          {err && (
+            <p className="mt-4 text-center text-sm text-red-200">
+              {err}. Try a valid IP (e.g., 8.8.8.8) or a domain (e.g.,
+              example.com).
+            </p>
+          )}
+        </div>
       </header>
 
-      <main className="relative grow">
-      
-      {/* Info Card */}
-        <div className="absolute left-1/2 top-0 z-20 w-full max-w-4xl -translate-x-1/2 px-4 md:-translate-y-1/2">    
-          <InfoCard data={data} />
-        </div>
+      {/* Info Card - absolutely positioned to overlap header and map */}
+      <div className="absolute top-48 left-1/2 transform -translate-x-1/2 z-30 w-full max-w-5xl px-4">
+        <InfoCard data={data} />
+      </div>
 
-        {/* Map View */}
-        <MapView lat={data?.location.lat} lng={data?.location.lng} />
-      </main>
+      {/* Map View - directly below header with lower z-index */}
+      <section className="relative h-[calc(100vh-16rem)] z-0">
+        <MapView lat={data?.location?.lat} lng={data?.location?.lng} />
+      </section>
     </div>
   );
 }
